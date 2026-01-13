@@ -1,30 +1,40 @@
 import { blogPosts } from "@/app/lib/data";
 import BlogCard from "@/app/components/BlogCard";
-
-export const metadata = {
-  title: "Blog | Cybrarians",
-  description: "Insights, tutorials, and updates from our research group.",
-};
+import PageHero from "@/app/components/PageHero";
+import BottomCTA from "@/app/components/BottomCTA";
 
 export default function BlogPage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16">
-      <div className="mb-12">
-        <h1 className="text-4xl font-bold text-foreground">Blog</h1>
-        <p className="mt-4 text-lg text-muted">
-          Insights, tutorials, and updates from our research group
-        </p>
-      </div>
+    <div className="flex flex-col">
+      <PageHero
+        badge="Latest Insights"
+        title={
+          <>
+            Insights From <br />
+            <span className="text-gradient transition-transform duration-500">
+              The Research Lab.
+            </span>
+          </>
+        }
+        description="Exploring The Latest Trends In Technology, Research Methodologies, And Academic Breakthroughs From Our Dedicated Collective."
+      />
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {blogPosts.map((post) => (
-          <BlogCard key={post.id} post={post} />
-        ))}
-      </div>
+      <div className="w-full px-6 md:px-16 lg:px-24 py-20">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {blogPosts.map((post) => (
+            <BlogCard key={post.id} post={post} />
+          ))}
+        </div>
 
-      {blogPosts.length === 0 && (
-        <p className="text-center text-muted">No blog posts yet. Check back soon!</p>
-      )}
+        {blogPosts.length === 0 && (
+          <div className="rounded-none border border-zinc-100 bg-zinc-50/50 p-20 text-center">
+            <p className="text-xl text-zinc-400 font-medium">
+              No blog posts yet. Check back soon!
+            </p>
+          </div>
+        )}
+      </div>
+      <BottomCTA />
     </div>
   );
 }

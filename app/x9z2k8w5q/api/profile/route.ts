@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { requireAuth } from '@/app/lib/auth';
+import { NextResponse } from "next/server";
+import { requireAuth } from "@/app/lib/auth";
 import {
   createProfile,
   updateProfile,
@@ -7,24 +7,21 @@ import {
   createFYPStudent,
   updateFYPStudent,
   getFYPStudentByUserId,
-} from '@/app/lib/db/service';
+} from "@/app/lib/db/service";
 
 export async function POST(request: Request) {
   try {
     const session = await requireAuth();
 
     if (!session) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Only RAs and FYP students can update their profiles
-    if (session.role === 'supervisor') {
+    if (session.role === "supervisor") {
       return NextResponse.json(
-        { error: 'Supervisors cannot update profiles through this endpoint' },
-        { status: 403 }
+        { error: "Supervisors cannot update profiles through this endpoint" },
+        { status: 403 },
       );
     }
 
@@ -33,8 +30,8 @@ export async function POST(request: Request) {
     // Verify user is updating their own profile
     if (userId !== session.userId) {
       return NextResponse.json(
-        { error: 'You can only update your own profile' },
-        { status: 403 }
+        { error: "You can only update your own profile" },
+        { status: 403 },
       );
     }
 
@@ -58,7 +55,7 @@ export async function POST(request: Request) {
     }
 
     // Handle FYP-specific data
-    if (session.role === 'fyp_student' && fypData) {
+    if (session.role === "fyp_student" && fypData) {
       const existingFypData = getFYPStudentByUserId(userId);
 
       if (existingFypData) {
@@ -81,13 +78,13 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: 'Profile updated successfully',
+      message: "Profile updated successfully",
     });
   } catch (error) {
-    console.error('Profile update error:', error);
+    console.error("Profile update error:", error);
     return NextResponse.json(
-      { error: 'An error occurred while updating profile' },
-      { status: 500 }
+      { error: "An error occurred while updating profile" },
+      { status: 500 },
     );
   }
 }

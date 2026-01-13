@@ -45,9 +45,7 @@ export default function AdminLoginPage() {
           <h1 className="text-3xl font-bold text-center text-primary mb-2">
             Admin Panel
           </h1>
-          <p className="text-center text-muted mb-8">
-            Internal access only
-          </p>
+          <p className="text-center text-muted mb-8">Internal access only</p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (

@@ -24,7 +24,6 @@ export default function PapersManager({
 
   // Use initialPapers directly to ensure updates on refresh
   const papers = initialPapers || [];
-  const [success, setSuccess] = useState("");
 
   // Form fields
   const [title, setTitle] = useState("");
@@ -102,7 +101,6 @@ export default function PapersManager({
       setTimeout(() => {
         resetForm();
       }, 1500);
-      }, 1000);
     } catch (err) {
       setError("An error occurred. Please try again.");
       setLoading(false);
@@ -139,7 +137,6 @@ export default function PapersManager({
         setSuccess("");
         setLoading(false);
       }, 1500);
-      }, 1000);
     } catch (err) {
       setError("An error occurred. Please try again.");
       setLoading(false);

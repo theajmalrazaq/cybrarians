@@ -13,14 +13,17 @@ interface RateLimitEntry {
 const rateLimitStore = new Map<string, RateLimitEntry>();
 
 // Cleanup old entries every 5 minutes
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, entry] of rateLimitStore.entries()) {
-    if (entry.resetAt < now) {
-      rateLimitStore.delete(key);
+setInterval(
+  () => {
+    const now = Date.now();
+    for (const [key, entry] of rateLimitStore.entries()) {
+      if (entry.resetAt < now) {
+        rateLimitStore.delete(key);
+      }
     }
-  }
-}, 5 * 60 * 1000);
+  },
+  5 * 60 * 1000,
+);
 
 export interface RateLimitConfig {
   /**
@@ -51,7 +54,7 @@ export interface RateLimitResult {
  */
 export function checkRateLimit(
   request: Request,
-  config: RateLimitConfig
+  config: RateLimitConfig,
 ): RateLimitResult {
   const now = Date.now();
   const resetAt = now + config.windowMs;
@@ -110,18 +113,21 @@ export function checkRateLimit(
 /**
  * Rate limit response helper
  */
-export function rateLimitResponse(result: RateLimitResult, response?: Response) {
+export function rateLimitResponse(
+  result: RateLimitResult,
+  response?: Response,
+) {
   const headers = new Headers(response?.headers);
 
   headers.set("X-RateLimit-Limit", result.limit.toString());
   headers.set("X-RateLimit-Remaining", result.remaining.toString());
-  headers.set(
-    "X-RateLimit-Reset",
-    new Date(result.resetAt).toISOString()
-  );
+  headers.set("X-RateLimit-Reset", new Date(result.resetAt).toISOString());
 
   if (!result.success) {
-    headers.set("Retry-After", Math.ceil((result.resetAt - Date.now()) / 1000).toString());
+    headers.set(
+      "Retry-After",
+      Math.ceil((result.resetAt - Date.now()) / 1000).toString(),
+    );
   }
 
   return headers;
@@ -168,7 +174,7 @@ export const RateLimits = {
 export async function withRateLimit(
   request: Request,
   config: RateLimitConfig,
-  handler: () => Promise<Response>
+  handler: () => Promise<Response>,
 ): Promise<Response> {
   const result = checkRateLimit(request, config);
 
@@ -185,7 +191,7 @@ export async function withRateLimit(
           "Content-Type": "application/json",
           ...Object.fromEntries(headers.entries()),
         },
-      }
+      },
     );
   }
 

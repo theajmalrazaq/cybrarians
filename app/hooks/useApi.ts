@@ -40,7 +40,7 @@ export function useApi(options: UseApiOptions = {}) {
 
   const execute = async <T = any>(
     fetcher: () => Promise<Response>,
-    successMessage?: string
+    successMessage?: string,
   ): Promise<T | null> => {
     setState({ loading: true, error: "", success: "" });
 
@@ -89,7 +89,7 @@ export function useApi(options: UseApiOptions = {}) {
  */
 export function useForm<T extends Record<string, any>>(
   initialValues: T,
-  options: UseApiOptions = {}
+  options: UseApiOptions = {},
 ) {
   const [values, setValues] = useState<T>(initialValues);
   const api = useApi(options);
@@ -97,7 +97,7 @@ export function useForm<T extends Record<string, any>>(
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value, type } = e.target;
 
@@ -112,7 +112,7 @@ export function useForm<T extends Record<string, any>>(
   const handleSubmit = async (
     e: React.FormEvent,
     fetcher: (values: T) => Promise<Response>,
-    successMessage?: string
+    successMessage?: string,
   ) => {
     e.preventDefault();
     return api.execute(() => fetcher(values), successMessage);
@@ -147,7 +147,7 @@ export function useDelete(options: UseApiOptions = {}) {
   const executeDelete = async (
     fetcher: () => Promise<Response>,
     confirmMessage = "Are you sure you want to delete this item?",
-    successMessage = "Item deleted successfully"
+    successMessage = "Item deleted successfully",
   ) => {
     if (!confirm(confirmMessage)) {
       return null;

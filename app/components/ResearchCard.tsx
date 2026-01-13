@@ -2,49 +2,55 @@ import { Research } from "@/app/lib/data";
 
 export default function ResearchCard({ research }: { research: Research }) {
   return (
-    <article className="rounded-lg border border-border bg-background p-6 transition-shadow hover:shadow-md">
-      <div className="mb-3 flex items-center gap-2">
-        <span
-          className={`rounded-full px-3 py-1 text-xs font-medium ${
-            research.type === "paper"
-              ? "bg-surface text-primary"
-              : "bg-surface text-foreground"
-          }`}
-        >
-          {research.type === "paper" ? "Research Paper" : "FYP Project"}
-        </span>
-        <span className="text-sm text-muted">{research.year}</span>
-      </div>
-
-      <h3 className="mb-2 text-lg font-semibold leading-tight text-foreground">
-        {research.title}
-      </h3>
-
-      <p className="mb-3 text-sm text-primary">{research.authors.join(", ")}</p>
-
-      <p className="mb-4 text-sm leading-relaxed text-muted">
-        {research.abstract}
-      </p>
-
-      <div className="flex flex-wrap gap-2">
-        {research.tags.map((tag) => (
+    <article className="group flex flex-col justify-between rounded-3xl border border-zinc-100 bg-background p-8 transition-all hover:bg-zinc-50 hover:border-brand/30">
+      <div>
+        <div className="mb-4 flex items-center justify-between">
           <span
-            key={tag}
-            className="rounded bg-surface px-2 py-1 text-xs text-muted"
+            className={`rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+              research.type === "paper" ? "text-brand" : "text-zinc-600"
+            }`}
           >
-            {tag}
+            {research.type === "paper" ? "Publication" : "Project"}
           </span>
-        ))}
+          <span className="text-[10px] font-medium text-zinc-400">
+            {research.year}
+          </span>
+        </div>
+
+        <h3 className="mb-2 text-xl font-semibold leading-tight text-black group-hover:text-brand transition-colors">
+          {research.title}
+        </h3>
+
+        <p className="mb-3 text-xs font-bold text-zinc-400">
+          {research.authors.join(", ")}
+        </p>
+
+        <p className="mb-4 text-sm leading-relaxed text-zinc-500 line-clamp-3 font-medium">
+          {research.abstract}
+        </p>
+
+        <div className="flex flex-wrap gap-2 mb-6">
+          {research.tags.map((tag) => (
+            <span
+              key={tag}
+              className="inline-flex items-center rounded-full border border-border bg-surface px-2 py-0.5 text-[9px] font-medium uppercase tracking-wider text-muted"
+            >
+              # {tag}
+            </span>
+          ))}
+        </div>
       </div>
 
-      {research.link && (
-        <a
-          href={research.link}
-          className="mt-4 inline-block text-sm font-medium text-primary hover:underline"
-        >
-          Read Paper
-        </a>
-      )}
+      <div className="mt-auto pt-4 border-t border-zinc-100">
+        {research.link && (
+          <a
+            href={research.link}
+            className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black hover:gap-3 transition-all hover:text-brand"
+          >
+            Access <span>→</span>
+          </a>
+        )}
+      </div>
     </article>
   );
 }

@@ -2,8 +2,8 @@
  * Validation utilities for form inputs and data
  */
 
-import { VALIDATION, VALIDATION_MESSAGES } from './constants';
-import type { UserRole } from '@/app/types';
+import { VALIDATION, VALIDATION_MESSAGES } from "./constants";
+import type { UserRole } from "@/app/types";
 
 // ============================================================================
 // Type Guards
@@ -18,7 +18,7 @@ export function isValidUrl(url: string): boolean {
 }
 
 export function isValidRole(role: string): role is UserRole {
-  return ['supervisor', 'research_assistant', 'fyp_student'].includes(role);
+  return ["supervisor", "research_assistant", "fyp_student"].includes(role);
 }
 
 // ============================================================================
@@ -31,7 +31,7 @@ export interface ValidationResult {
 }
 
 export function createValidationResult(
-  errors: Record<string, string> = {}
+  errors: Record<string, string> = {},
 ): ValidationResult {
   return {
     isValid: Object.keys(errors).length === 0,
@@ -44,8 +44,8 @@ export function createValidationResult(
 // ============================================================================
 
 export const validators = {
-  required: (value: any, fieldName = 'Field'): string | null => {
-    if (!value || (typeof value === 'string' && value.trim() === '')) {
+  required: (value: any, fieldName = "Field"): string | null => {
+    if (!value || (typeof value === "string" && value.trim() === "")) {
       return `${fieldName} is required`;
     }
     return null;
@@ -94,7 +94,7 @@ export const validators = {
   role: (value: string): string | null => {
     if (!value) return null;
     if (!isValidRole(value)) {
-      return 'Invalid role specified';
+      return "Invalid role specified";
     }
     return null;
   },
@@ -104,13 +104,17 @@ export const validators = {
 // Form Validators
 // ============================================================================
 
-export function validateLoginForm(email: string, password: string): ValidationResult {
+export function validateLoginForm(
+  email: string,
+  password: string,
+): ValidationResult {
   const errors: Record<string, string> = {};
 
-  const emailError = validators.required(email, 'Email') || validators.email(email);
+  const emailError =
+    validators.required(email, "Email") || validators.email(email);
   if (emailError) errors.email = emailError;
 
-  const passwordError = validators.required(password, 'Password');
+  const passwordError = validators.required(password, "Password");
   if (passwordError) errors.password = passwordError;
 
   return createValidationResult(errors);
@@ -119,43 +123,50 @@ export function validateLoginForm(email: string, password: string): ValidationRe
 export function validateUserForm(
   email: string,
   password: string,
-  role: string
+  role: string,
 ): ValidationResult {
   const errors: Record<string, string> = {};
 
-  const emailError = validators.required(email, 'Email') || validators.email(email);
+  const emailError =
+    validators.required(email, "Email") || validators.email(email);
   if (emailError) errors.email = emailError;
 
   const passwordError =
-    validators.required(password, 'Password') || validators.password(password);
+    validators.required(password, "Password") || validators.password(password);
   if (passwordError) errors.password = passwordError;
 
-  const roleError = validators.required(role, 'Role') || validators.role(role);
+  const roleError = validators.required(role, "Role") || validators.role(role);
   if (roleError) errors.role = roleError;
 
   return createValidationResult(errors);
 }
 
-export function validateProfileForm(name: string, bio?: string): ValidationResult {
+export function validateProfileForm(
+  name: string,
+  bio?: string,
+): ValidationResult {
   const errors: Record<string, string> = {};
 
-  const nameError = validators.required(name, 'Name');
+  const nameError = validators.required(name, "Name");
   if (nameError) errors.name = nameError;
 
   if (bio && bio.length > 500) {
-    errors.bio = 'Bio must be at most 500 characters';
+    errors.bio = "Bio must be at most 500 characters";
   }
 
   return createValidationResult(errors);
 }
 
-export function validatePaperForm(title: string, url: string): ValidationResult {
+export function validatePaperForm(
+  title: string,
+  url: string,
+): ValidationResult {
   const errors: Record<string, string> = {};
 
-  const titleError = validators.required(title, 'Title');
+  const titleError = validators.required(title, "Title");
   if (titleError) errors.title = titleError;
 
-  const urlError = validators.required(url, 'URL') || validators.url(url);
+  const urlError = validators.required(url, "URL") || validators.url(url);
   if (urlError) errors.url = urlError;
 
   return createValidationResult(errors);
@@ -163,14 +174,15 @@ export function validatePaperForm(title: string, url: string): ValidationResult 
 
 export function validateCommunityMemberForm(
   name: string,
-  email: string
+  email: string,
 ): ValidationResult {
   const errors: Record<string, string> = {};
 
-  const nameError = validators.required(name, 'Name');
+  const nameError = validators.required(name, "Name");
   if (nameError) errors.name = nameError;
 
-  const emailError = validators.required(email, 'Email') || validators.email(email);
+  const emailError =
+    validators.required(email, "Email") || validators.email(email);
   if (emailError) errors.email = emailError;
 
   return createValidationResult(errors);
@@ -181,7 +193,7 @@ export function validateCommunityMemberForm(
 // ============================================================================
 
 export function sanitizeString(value: string | null | undefined): string {
-  if (!value) return '';
+  if (!value) return "";
   return value.trim();
 }
 
@@ -203,11 +215,11 @@ export function sanitizeUrl(url: string): string {
 // ============================================================================
 
 export function toBoolean(value: any): boolean {
-  if (typeof value === 'boolean') return value;
-  if (typeof value === 'string') {
-    return value.toLowerCase() === 'true' || value === '1';
+  if (typeof value === "boolean") return value;
+  if (typeof value === "string") {
+    return value.toLowerCase() === "true" || value === "1";
   }
-  if (typeof value === 'number') return value !== 0;
+  if (typeof value === "number") return value !== 0;
   return Boolean(value);
 }
 
@@ -222,7 +234,7 @@ export function toInt(value: any, defaultValue = 0): number {
 
 export function validateFields(
   fields: Record<string, any>,
-  rules: Record<string, Array<(value: any) => string | null>>
+  rules: Record<string, Array<(value: any) => string | null>>,
 ): ValidationResult {
   const errors: Record<string, string> = {};
 

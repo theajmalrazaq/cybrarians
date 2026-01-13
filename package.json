@@ -11,8 +11,11 @@
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "cybrarians": "link:",
+    "gsap": "^3.14.2",
     "jose": "^6.1.3",
     "next": "16.1.0",
+    "ogl": "^1.0.11",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
@@ -29,5 +32,11 @@
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "bcryptjs",
+      "better-sqlite3"
+    ]
   }
 }
